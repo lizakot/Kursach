@@ -9,10 +9,6 @@
         android:title="Reports"
         android:icon="@drawable/baseline_align_vertical_bottom_24"/>
     <item
-        android:id="@+id/fab"
-        android:title=""
-        android:enabled="false"/>
-    <item
         android:id="@+id/category"
         android:title="Category"
         android:icon="@drawable/baseline_category_24"/>

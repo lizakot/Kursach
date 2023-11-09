@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!validateUsername() | !validatePassword()) {
-
+                    startActivity(new Intent(LoginActivity.this, BottomActivity.class));
                 } else {
                     checkUser();
                 }

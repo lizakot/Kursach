@@ -5,7 +5,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/mainIcon"
+        android:layout_width="253dp"
+        android:layout_height="447dp"
+        android:src="@drawable/money"
+        tools:layout_editor_absoluteX="79dp"
+        tools:layout_editor_absoluteY="85dp" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/yellow"
+        android:text="Регистрация"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:cornerRadius="10dp"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="584dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Уже есть аккаунт? Вход"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="200dp"
+        tools:layout_editor_absoluteY="655dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
