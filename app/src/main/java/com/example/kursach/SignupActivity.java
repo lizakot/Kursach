@@ -36,21 +36,22 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (validateFields()) {
+                    database = FirebaseDatabase.getInstance();
+                    reference = database.getReference("users");
 
-                database = FirebaseDatabase.getInstance();
-                reference = database.getReference("users");
+                    String name = signupName.getText().toString();
+                    String email = signupEmail.getText().toString();
+                    String username = signupUsername.getText().toString();
+                    String password = signupPassword.getText().toString();
 
-                String name = signupName.getText().toString();
-                String email = signupEmail.getText().toString();
-                String username = signupUsername.getText().toString();
-                String password = signupPassword.getText().toString();
+                    HelperClass helperClass = new HelperClass(name, email, username, password);
+                    reference.child(username).setValue(helperClass);
 
-                HelperClass helperClass = new HelperClass(name, email, username, password);
-                reference.child(username).setValue(helperClass);
-
-                Toast.makeText(SignupActivity.this, "You have signup successfully!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
+                    Toast.makeText(SignupActivity.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -61,5 +62,34 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private boolean validateFields() {
+        String name = signupName.getText().toString().trim();
+        String email = signupEmail.getText().toString().trim();
+        String username = signupUsername.getText().toString().trim();
+        String password = signupPassword.getText().toString().trim();
+
+        if (name.isEmpty()) {
+            signupName.setError("Name cannot be empty");
+            return false;
+        }
+
+        if (email.isEmpty()) {
+            signupEmail.setError("Email cannot be empty");
+            return false;
+        }
+
+        if (username.isEmpty()) {
+            signupUsername.setError("Username cannot be empty");
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            signupPassword.setError("Password cannot be empty");
+            return false;
+        }
+
+        return true;
     }
 }
