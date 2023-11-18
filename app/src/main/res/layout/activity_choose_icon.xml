@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/category"
+    tools:context=".activity.UploadActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="471dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/yellow_border"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/icon1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_coffee"
+                android:contentDescription="Иконка кофе"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icon2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_airplane"
+                android:contentDescription="Иконка самолёта"
+                app:layout_constraintStart_toEndOf="@+id/icon1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icon3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_shopping"
+                android:contentDescription="Иконка сумки"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/icon2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icon4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_car"
+                android:contentDescription="Иконка машины"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon1" />
+
+            <ImageView
+                android:id="@+id/icon5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_products"
+                android:contentDescription="Иконка тележки"
+                app:layout_constraintStart_toEndOf="@+id/icon4"
+                app:layout_constraintTop_toBottomOf="@+id/icon2" />
+
+            <ImageView
+                android:id="@+id/icon6"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_pets"
+                android:contentDescription="Иконка лапки"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/icon5"
+                app:layout_constraintTop_toBottomOf="@+id/icon3" />
+
+            <ImageView
+                android:id="@+id/icon7"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_apteka"
+                android:contentDescription="Иконка аптеки"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon4" />
+
+
+            <ImageView
+                android:id="@+id/icon8"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_museum"
+                android:contentDescription="Иконка музея"
+                app:layout_constraintStart_toEndOf="@+id/icon7"
+                app:layout_constraintTop_toBottomOf="@+id/icon5" />
+
+
+            <ImageView
+                android:id="@+id/icon9"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_food"
+                android:contentDescription="Иконка еды"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/icon8"
+                app:layout_constraintTop_toBottomOf="@+id/icon6" />
+
+            <ImageView
+                android:id="@+id/icon10"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_entertainment"
+                android:contentDescription="Иконка хлопушки"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon7" />
+
+            <ImageView
+                android:id="@+id/icon11"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:src="@drawable/icon_gallery_sports_"
+                android:contentDescription="Иконка спорта"
+                app:layout_constraintStart_toEndOf="@+id/icon10"
+                app:layout_constraintTop_toBottomOf="@+id/icon8" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

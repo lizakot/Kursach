@@ -1,8 +1,10 @@
-package com.example.kursach;
+package com.example.kursach.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.kursach.R;
 
 
 public class BottomActivity extends AppCompatActivity {

@@ -16,25 +16,28 @@
         android:theme="@style/Theme.Kursach"
         tools:targetApi="31">
         <activity
-            android:name=".UploadActivity"
+            android:name=".activity.ChooseIconActivity"
             android:exported="false" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".activity.UploadActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".activity.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".BottomActivity"
+            android:name=".activity.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.BottomActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

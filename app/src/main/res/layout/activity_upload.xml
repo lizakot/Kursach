@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UploadActivity">
+    android:background="@drawable/category"
+    tools:context=".activity.UploadActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="471dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/yellow_border"
             android:padding="20dp">
@@ -62,7 +63,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/uploadTopic" />
 
             <Button
-                android:id="@+id/uploadbadge"
+                android:id="@+id/uploadBadge"
                 android:layout_width="264dp"
                 android:layout_height="63dp"
                 android:backgroundTint="@color/white"
@@ -90,7 +91,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/badge" />
 
             <Button
-                android:id="@+id/uploadcolor"
+                android:id="@+id/uploadColor"
                 android:layout_width="264dp"
                 android:layout_height="56dp"
                 android:backgroundTint="@color/white"
@@ -103,13 +104,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/palette"
-                app:layout_constraintTop_toBottomOf="@+id/uploadbadge" />
+                app:layout_constraintTop_toBottomOf="@+id/uploadBadge" />
 
             <TextView
                 android:id="@+id/cancelTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="Отмена"
@@ -117,8 +118,8 @@
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/uploadcolor"
-                app:layout_constraintVertical_bias="0.635" />
+                app:layout_constraintTop_toBottomOf="@+id/uploadColor"
+                app:layout_constraintVertical_bias="0.491" />
 
             <Button
                 android:id="@+id/saveButton"
@@ -132,8 +133,8 @@
                 app:cornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/uploadcolor"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/uploadColor"
+                app:layout_constraintVertical_bias="0.323" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

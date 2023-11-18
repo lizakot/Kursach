@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    android:background="@drawable/category"
+    tools:context=".activity.LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                 android:id="@+id/login_username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/yellow_border"
                 android:drawableLeft="@drawable/baseline_person_pin_24"
                 android:drawablePadding="8dp"
@@ -54,7 +55,7 @@
                 android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/yellow_border"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
@@ -63,13 +64,13 @@
                 android:padding="8dp"
                 android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@+id/login_username"
-                tools:layout_editor_absoluteX="20dp" />
+                tools:layout_editor_absoluteX="16dp" />
 
             <Button
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:backgroundTint="@color/yellow"
                 android:text="Войти"
                 android:textSize="18sp"
