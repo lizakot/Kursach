@@ -3,17 +3,15 @@ package com.example.kursach.model;
 public class CategoryInfo {
 
     private String categoryName;
+    private String categoryDescription;
 
-    private String categoryIconUrl;
-    private String categoryColor;
+    public CategoryInfo() {
+        // Конструктор без параметров (для Firebase)
+    }
 
-    // Конструктор без параметров (для Firebase)
-    public CategoryInfo() {}
-
-    public CategoryInfo(String categoryName, String categoryIconUrl, String categoryColor) {
+    public CategoryInfo(String categoryName, String categoryDescription) {
         this.categoryName = categoryName;
-        this.categoryIconUrl = categoryIconUrl;
-        this.categoryColor = categoryColor;
+        this.categoryDescription = categoryDescription;
     }
 
     public String getCategoryName() {
@@ -24,20 +22,11 @@ public class CategoryInfo {
         this.categoryName = categoryName;
     }
 
-    public String getCategoryIconUrl() {
-        return categoryIconUrl;
+    public String getCategoryDescription() {
+        return categoryDescription;
     }
 
-    public void setCategoryIconUrl(String categoryIconUrl) {
-        this.categoryIconUrl = categoryIconUrl;
-    }
-
-    public String getCategoryColor() {
-        return categoryColor;
-    }
-
-    public void setCategoryColor(String categoryColor) {
-        this.categoryColor = categoryColor;
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
     }
 }
-

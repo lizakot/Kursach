@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/category"
+    tools:context=".activity.UploadActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="471dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/yellow_border"
+            android:padding="20dp">
+
+
+            <ImageView
+                android:id="@+id/color1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/baby_pink"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.002" />
+
+            <ImageView
+                android:id="@+id/color2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/light_blue"
+                app:layout_constraintStart_toEndOf="@+id/color1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.002" />
+
+            <ImageView
+                android:id="@+id/color3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/mint_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.243"
+                app:layout_constraintStart_toEndOf="@+id/color2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.002" />
+
+            <ImageView
+                android:id="@+id/color4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/lavender"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/color1"
+                app:layout_constraintVertical_bias="0.163" />
+
+            <ImageView
+                android:id="@+id/color5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/light_yellow"
+                android:clickable="true"
+                app:layout_constraintStart_toEndOf="@+id/color4"
+                app:layout_constraintTop_toBottomOf="@+id/color2" />
+
+            <ImageView
+                android:id="@+id/color6"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/rose"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/color5"
+                app:layout_constraintTop_toBottomOf="@+id/color3" />
+
+            <ImageView
+                android:id="@+id/color7"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/yellow"
+                app:layout_constraintTop_toBottomOf="@+id/color4"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/color8"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/light_salmon"
+                android:clickable="true"
+                app:layout_constraintStart_toEndOf="@+id/color7"
+                app:layout_constraintTop_toBottomOf="@+id/color5" />
+
+            <ImageView
+                android:id="@+id/color9"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@color/cornflower_blue"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/color8"
+                app:layout_constraintTop_toBottomOf="@+id/color6" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

@@ -9,5 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
     <color name="yellow">#FDCE4B</color>
-    <color name="grey">#ff424242</color>
+    <color name="light_blue">#ADD8E6</color>
+    <color name="mint_green">#A1EAA1</color>
+    <color name="rose">#D15268</color>
+    <color name="light_yellow">#FBFB89</color>
+    <color name="baby_pink">#F4CCCC</color>
+    <color name="light_salmon">#FFA07A</color>
+    <color name="cornflower_blue">#6495ED</color>
+
 </resources>
