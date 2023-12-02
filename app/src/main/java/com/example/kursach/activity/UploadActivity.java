@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -93,9 +94,31 @@ public class UploadActivity extends AppCompatActivity {
             Toast.makeText(UploadActivity.this, "Категория сохранена", Toast.LENGTH_SHORT).show();
             uploadTopic.setText("");
             uploadDescription.setText("");
+
+            // Сохранение данных в SharedPreferences
+            saveToSharedPreferences(categoryName, categoryDescription);
         } else {
             Toast.makeText(UploadActivity.this, "Ошибка сохранения категории", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void saveToSharedPreferences(String categoryName, String categoryDescription) {
+        // Получение объекта SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+
+        // Создание объекта Editor для изменения SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Сохранение данных о категории в SharedPreferences
+        editor.putString("categoryName", categoryName);
+        editor.putString("categoryDescription", categoryDescription);
+
+        // Применение изменений
+        editor.apply();
+        Intent intent = new Intent(UploadActivity.this, BottomActivity.class);
+        intent.putExtra("categoryName", categoryName);
+        intent.putExtra("categoryDescription", categoryDescription);
+        startActivity(intent);
     }
 
     @Override
@@ -115,3 +138,4 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 }
+

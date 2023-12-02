@@ -23,10 +23,10 @@
         android:background="@drawable/yellow_border"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
         android:layout_below="@id/search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:id="@+id/recyclerView"
         android:scrollbars="vertical"/>
 

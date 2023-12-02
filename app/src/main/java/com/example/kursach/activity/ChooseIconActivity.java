@@ -33,7 +33,7 @@ public class ChooseIconActivity extends AppCompatActivity {
         icon10 = findViewById(R.id.icon10);
         icon11 = findViewById(R.id.icon11);
 
-        uploadImage = findViewById(R.id.uploadImage); // ваша первая ImageView
+        uploadImage = findViewById(R.id.uploadImage);
 
         icon1.setOnClickListener(new View.OnClickListener() {
             @Override

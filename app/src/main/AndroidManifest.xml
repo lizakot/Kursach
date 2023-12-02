@@ -28,9 +28,6 @@
             android:name=".activity.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ProfileActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.BottomActivity"
             android:exported="false" />
         <activity
