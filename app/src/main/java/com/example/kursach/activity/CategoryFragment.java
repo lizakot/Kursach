@@ -22,3 +22,4 @@ public class CategoryFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_category, container, false);
     }
 }
+

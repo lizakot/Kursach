@@ -39,12 +39,19 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isNameChanged() || isPasswordChanged() || isEmailChanged()){
-                    Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("edited_name", editName.getText().toString());
+                    resultIntent.putExtra("edited_email", editEmail.getText().toString());
+                    resultIntent.putExtra("edited_username", editUsername.getText().toString());
+                    resultIntent.putExtra("edited_password", editPassword.getText().toString());
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
                 } else {
                     Toast.makeText(EditProfileActivity.this, "No Changes Found", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     private boolean isNameChanged() {
@@ -78,8 +85,8 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void showData(){
 
+    public void showData() {
         Intent intent = getIntent();
 
         nameUser = intent.getStringExtra("name");

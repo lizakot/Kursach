@@ -5,7 +5,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -104,12 +106,16 @@ public class LoginActivity extends AppCompatActivity {
                         String emailFromDB = snapshot.child(userUsername).child("email").getValue(String.class);
                         String usernameFromDB = snapshot.child(userUsername).child("username").getValue(String.class);
 
+                        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("name", nameFromDB);
+                        editor.putString("email", emailFromDB);
+                        editor.putString("username", usernameFromDB);
+                        editor.putString("password", passwordFromDB);
+                        editor.apply();
+
                         Intent intent = new Intent(LoginActivity.this, BottomActivity.class);
 
-                        intent.putExtra("name", nameFromDB);
-                        intent.putExtra("email", emailFromDB);
-                        intent.putExtra("username", usernameFromDB);
-                        intent.putExtra("password", passwordFromDB);
 
                         startActivity(intent);
                     } else {
