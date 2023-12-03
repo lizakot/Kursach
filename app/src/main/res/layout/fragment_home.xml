@@ -9,6 +9,7 @@
     tools:context=".activity.HomeFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -27,7 +28,7 @@
                 android:id="@+id/balanceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Текущий баланс: $100"
+                android:text="Текущий баланс: 100 BYN"
                 android:textSize="20sp"
                 android:textColor="@color/black"/>
 
@@ -58,6 +59,13 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/card"
+        android:background="@color/white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

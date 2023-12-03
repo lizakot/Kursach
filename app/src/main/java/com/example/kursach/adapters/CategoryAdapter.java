@@ -1,4 +1,4 @@
-package com.example.kursach.activity;
+package com.example.kursach.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/category"
+    tools:context=".activity.ExpenseManager">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/yellow_border"
+            android:padding="20dp"
+            app:cardElevation="8dp">
+
+
+            <Button
+                android:id="@+id/choice"
+                android:layout_width="320dp"
+                android:layout_height="63dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/white"
+                app:cardElevation="8dp"
+                android:text="Выбор категории"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.492"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="2dp" />
+
+            <EditText
+                android:id="@+id/summ"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/yellow_border"
+                android:gravity="start|top"
+                android:hint="Сумма расхода"
+                android:padding="16dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/choice"/>
+
+            <Button
+                android:id="@+id/datePickerButton"
+                android:layout_width="0dp"
+                android:layout_height="63dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/white"
+                app:cardElevation="8dp"
+                android:text="Выбор даты"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/summ" />
+
+
+            <TextView
+                android:id="@+id/cancelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="Отмена"
+                android:textColor="@color/yellow"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/datePickerButton"
+                app:layout_constraintVertical_bias="0.418" />
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="161dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="4dp"
+                android:backgroundTint="@color/yellow"
+                android:text="Сохранить"
+                android:textSize="18sp"
+                app:cornerRadius="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/datePickerButton"
+                app:layout_constraintVertical_bias="0.157" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
