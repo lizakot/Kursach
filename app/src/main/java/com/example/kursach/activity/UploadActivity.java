@@ -27,8 +27,12 @@ public class UploadActivity extends AppCompatActivity {
     Button uploadColor;
     TextView cancelTextView;
     Button saveButton;
+    private String categoryName;
+    private String categoryDescription;
     private static final int REQUEST_CODE_SELECT_ICON = 101;
     private static final int REQUEST_CODE_SELECT_COLOR = 102;
+    private int categoryColor = 0;
+    private int categoryIcon = 0;
 
     DatabaseReference categoriesRef;
 
@@ -79,14 +83,14 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private void onSaveClicked() {
-        String categoryName = uploadTopic.getText().toString();
-        String categoryDescription = uploadDescription.getText().toString();
+        categoryName = uploadTopic.getText().toString();
+        categoryDescription = uploadDescription.getText().toString();
 
-        saveCategoryInfo(categoryName, categoryDescription);
+        saveCategoryInfo(categoryName, categoryDescription,  categoryColor, categoryIcon);
     }
 
-    private void saveCategoryInfo(String categoryName, String categoryDescription) {
-        CategoryInfo categoryInfo = new CategoryInfo(categoryName, categoryDescription);
+    private void saveCategoryInfo(String categoryName, String categoryDescription, int categoryColor, int categoryIcon) {
+        CategoryInfo categoryInfo = new CategoryInfo(categoryName, categoryDescription, categoryColor, categoryIcon);
 
         String key = categoriesRef.push().getKey();
         if (key != null) {
@@ -129,11 +133,16 @@ public class UploadActivity extends AppCompatActivity {
             int selectedIcon = data.getIntExtra("selectedIcon", 0);
             if (selectedIcon != 0) {
                 uploadImage.setImageResource(selectedIcon);
+                categoryIcon = selectedIcon;
             }
         } else if (requestCode == REQUEST_CODE_SELECT_COLOR && resultCode == RESULT_OK && data != null) {
             int selectedColor = data.getIntExtra("selectedColor", 0);
             if (selectedColor != 0) {
                 uploadImage.setColorFilter(selectedColor);
+
+
+                CategoryInfo categoryInfo = new CategoryInfo(categoryName, categoryDescription, categoryColor, categoryIcon);
+                categoryColor = selectedColor;
             }
         }
     }

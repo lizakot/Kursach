@@ -2,15 +2,20 @@ package com.example.kursach.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.kursach.R;
 import com.example.kursach.activity.UploadActivity;
@@ -47,24 +52,47 @@ public class CategoryFragment extends Fragment {
 
         recyclerView.setAdapter(categoryAdapter);
 
-        // Получаем данные из Firebase и обновляем список категорий
+
         fetchCategoriesFromFirebase();
         FloatingActionButton fab = view.findViewById(R.id.fab);
 
-        // Устанавливаем слушатель нажатия
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Создаем Intent для перехода к UploadActivity
-                Intent intent = new Intent(getActivity(), UploadActivity.class);
 
-                // Запускаем активность UploadActivity
-                startActivity(intent);
+
+
+        SearchView searchView = view.findViewById(R.id.search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    // Если строка пустая, обновите список до первоначального состояния
+                    categoryAdapter.updateCategoryList(categoryList);
+                } else {
+                    // В противном случае, примените фильтр к списку
+                    categoryAdapter.filter(newText);
+                }
+                return true;
             }
         });
 
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), UploadActivity.class);
+
+
+                startActivity(intent);
+            }
+        });
         return view;
     }
+
 
     private void fetchCategoriesFromFirebase() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("categories");
@@ -76,16 +104,19 @@ public class CategoryFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     CategoryInfo categoryInfo = snapshot.getValue(CategoryInfo.class);
                     categoryList.add(categoryInfo);
-                    // Вывод данных в лог
+
+
                     Log.d("FirebaseData", "Category Name: " + categoryInfo.getCategoryName());
                     Log.d("FirebaseData", "Category Description: " + categoryInfo.getCategoryDescription());
+                    Log.d("FirebaseData", "Category Color: " + categoryInfo.getCategoryColor());
+                    Log.d("FirebaseData", "Category Icon: " + categoryInfo.getCategoryIcon());
                 }
                 categoryAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Обработка ошибок при загрузке данных
+
             }
         });
     }

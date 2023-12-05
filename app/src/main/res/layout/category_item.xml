@@ -5,12 +5,26 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/categoryIconImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_add_reaction_24"
-        android:contentDescription="Category Icon"/>
+    <FrameLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/categoryColorView"
+            android:layout_width="73dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:background="@color/yellow" />
+
+        <ImageView
+            android:id="@+id/categoryIconImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Category Icon"
+            android:src="@drawable/baseline_add_reaction_24" />
+
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

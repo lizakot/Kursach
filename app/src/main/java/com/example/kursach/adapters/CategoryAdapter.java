@@ -1,24 +1,34 @@
 package com.example.kursach.adapters;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kursach.R;
 import com.example.kursach.model.CategoryInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
-    private List<CategoryInfo> categoryList;
+    public List<CategoryInfo> categoryList;
 
     public CategoryAdapter(List<CategoryInfo> categoryList) {
         this.categoryList = categoryList;
+    }
+
+    public void filterList(List<CategoryInfo> filteredList) {
+        categoryList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -34,6 +44,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.categoryNameTextView.setText(category.getCategoryName());
         holder.categoryDescriptionTextView.setText(category.getCategoryDescription());
+        holder.categoryColorView.setBackgroundColor(category.getCategoryColor());
+        holder.categoryIconImageView.setImageResource(category.getCategoryIcon());
+
     }
 
     @Override
@@ -51,12 +64,28 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         TextView categoryNameTextView;
         TextView categoryDescriptionTextView;
 
+        TextView categoryColorView;
+        ImageView categoryIconImageView;
+
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryNameTextView = itemView.findViewById(R.id.categoryNameTextView);
             categoryDescriptionTextView = itemView.findViewById(R.id.categoryDescriptionTextView);
+            categoryColorView = itemView.findViewById(R.id.categoryColorView);
+            categoryIconImageView = itemView.findViewById(R.id.categoryIconImageView);
         }
     }
+
+    public void filter(String text) {
+        List<CategoryInfo> filteredList = new ArrayList<>();
+        for (CategoryInfo category : categoryList) {
+            if (category.getCategoryName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(category);
+            }
+        }
+        filterList(filteredList);
+    }
+
 }
 
 
