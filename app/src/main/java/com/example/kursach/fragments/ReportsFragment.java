@@ -1,4 +1,4 @@
-package com.example.kursach.activity;
+package com.example.kursach.fragments;
 
 
 import android.os.Bundle;

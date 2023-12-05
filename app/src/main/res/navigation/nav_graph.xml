@@ -7,23 +7,23 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.example.kursach.activity.HomeFragment"
+        android:name="com.example.kursach.fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/reports"
-        android:name="com.example.kursach.activity.ReportsFragment"
+        android:name="com.example.kursach.fragments.ReportsFragment"
         android:label="Reports"
         tools:layout="@layout/fragment_reports" />
     <fragment
         android:id="@+id/category"
-        android:name="com.example.kursach.activity.CategoryFragment"
+        android:name="com.example.kursach.fragments.CategoryFragment"
         android:label="Category"
         tools:layout="@layout/fragment_category" />
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.kursach.activity.ProfileFragment"
+        android:name="com.example.kursach.fragments.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.kursach.activity;
+package com.example.kursach.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kursach.R;
+import com.example.kursach.activity.UploadActivity;
 import com.example.kursach.adapters.CategoryAdapter;
 import com.example.kursach.model.CategoryInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

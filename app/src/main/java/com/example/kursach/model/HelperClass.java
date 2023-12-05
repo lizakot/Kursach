@@ -2,7 +2,7 @@ package com.example.kursach.model;
 
 public class HelperClass {
 
-    String name, email, username, password;
+    String name, email, username, hashedPassword;
 
     public String getName() {
         return name;
@@ -28,19 +28,19 @@ public class HelperClass {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 
-    public HelperClass(String name, String email, String username, String password) {
+    public HelperClass(String name, String email, String username, String hashedPassword) {
         this.name = name;
         this.email = email;
         this.username = username;
-        this.password = password;
+        this.hashedPassword = hashedPassword;
     }
 
     public HelperClass() {

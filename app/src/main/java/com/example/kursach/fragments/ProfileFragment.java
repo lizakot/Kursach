@@ -1,4 +1,4 @@
-package com.example.kursach.activity;
+package com.example.kursach.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.kursach.R;
+import com.example.kursach.activity.EditProfileActivity;
 
 public class ProfileFragment extends Fragment {
 

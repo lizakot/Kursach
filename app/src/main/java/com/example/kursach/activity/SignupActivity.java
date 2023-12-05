@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kursach.R;
+import com.example.kursach.model.HashUtils;
 import com.example.kursach.model.HelperClass;
 import com.example.kursach.viewmodels.SignupViewModel;
 import com.google.firebase.database.DatabaseReference;
@@ -74,7 +76,10 @@ public class SignupActivity extends AppCompatActivity {
                     String username = signupUsername.getText().toString();
                     String password = signupPassword.getText().toString();
 
-                    HelperClass helperClass = new HelperClass(name, email, username, password);
+                    String hashedPassword = HashUtils.hashPassword(password);
+                    Log.d("HashedPassword", hashedPassword);
+
+                    HelperClass helperClass = new HelperClass(name, email, username, hashedPassword);
                     reference.child(username).setValue(helperClass);
 
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
