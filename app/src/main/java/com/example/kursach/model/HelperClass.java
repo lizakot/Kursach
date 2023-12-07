@@ -1,10 +1,30 @@
 package com.example.kursach.model;
 
+import java.util.List;
+
 public class HelperClass {
 
     String id, name, email, username, password;
 
+    public List<String> getCategoryIds() {
+        return categoryIds;
+    }
 
+    public void setCategoryIds(List<String> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    List<String> categoryIds;
+
+
+
+    public void addCategoryId(String categoryId) {
+        categoryIds.add(categoryId);
+    }
+
+    public void removeCategoryId(String categoryId) {
+        categoryIds.remove(categoryId);
+    }
 
     public String getId() {
         return id;
@@ -46,13 +66,13 @@ public class HelperClass {
         this.password = password;
     }
 
-    public HelperClass(String id, String name, String email, String username, String password) {
+    public HelperClass(List<String> categoryIds, String id, String name, String email, String username, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
-
+        this.categoryIds = categoryIds;
     }
 
     public HelperClass() {

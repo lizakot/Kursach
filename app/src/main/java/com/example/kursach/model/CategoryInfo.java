@@ -1,7 +1,15 @@
 package com.example.kursach.model;
 
 public class CategoryInfo {
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String categoryName;
     private String categoryDescription;
 
@@ -13,11 +21,12 @@ public class CategoryInfo {
         // Конструктор без параметров (для Firebase)
     }
 
-    public CategoryInfo(String categoryName, String categoryDescription, int categoryColor, int categoryIcon) {
+    public CategoryInfo(String id ,String categoryName, String categoryDescription, int categoryColor, int categoryIcon) {
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
         this.categoryColor = categoryColor;
         this.categoryIcon = categoryIcon;
+        this.id = id;
 
     }
 

@@ -16,6 +16,9 @@ import com.example.kursach.viewmodels.SignupViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SignupActivity extends AppCompatActivity {
 
     EditText signupName, signupUsername, signupEmail, signupPassword;
@@ -73,10 +76,11 @@ public class SignupActivity extends AppCompatActivity {
                     String email = signupEmail.getText().toString();
                     String username = signupUsername.getText().toString();
                     String password = signupPassword.getText().toString();
-
+                    List<String> categoryIds = new ArrayList<>();
+                    categoryIds.add("");
                     String userId = reference.push().getKey(); // Генерация уникального ID для нового пользователя
 
-                    HelperClass helperClass = new HelperClass(userId, name, email, username, password);
+                    HelperClass helperClass = new HelperClass(categoryIds,userId, name, email, username, password);
 
 
                     reference.child(userId).setValue(helperClass);

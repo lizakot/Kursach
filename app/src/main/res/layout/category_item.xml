@@ -41,5 +41,18 @@
             android:textColor="@color/black"/>
     </LinearLayout>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" /> <!-- Пространство, которое займет все доступное место -->
+
+    <ImageView
+        android:id="@+id/deleteButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="Delete"
+        android:src="@drawable/baseline_delete_24" />
+
 </LinearLayout>
 

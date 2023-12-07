@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,12 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kursach.R;
 import com.example.kursach.activity.EditProfileActivity;
+import com.example.kursach.activity.MainActivity;
 
 public class ProfileFragment extends Fragment {
 
     TextView profileName, profileEmail, profileUsername, profilePassword;
     TextView titleName;
     Button editButton;
+    ImageButton logoutButton;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +41,8 @@ public class ProfileFragment extends Fragment {
         profilePassword = view.findViewById(R.id.profilePassword);
         titleName = view.findViewById(R.id.titleName);
         editButton = view.findViewById(R.id.editButton);
+        logoutButton = view.findViewById(R.id.logoutButton);
+
 
         SharedPreferences preferences = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
 
@@ -56,6 +62,8 @@ public class ProfileFragment extends Fragment {
         Log.d("ProfileFragment", "Username: " + username);
         Log.d("ProfileFragment", "Password: " + password);
 
+
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +73,21 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("username", profileUsername.getText().toString());
                 intent.putExtra("password", profilePassword.getText().toString());
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Очистка данных пользователя в SharedPreferences
+                SharedPreferences preferences = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear().apply();
+
+                // Переход на MainActivity
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                requireActivity().finish(); // Закрыть текущую активность
             }
         });
 

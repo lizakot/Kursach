@@ -1,6 +1,8 @@
 package com.example.kursach.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,7 +23,9 @@ import com.example.kursach.R;
 import com.example.kursach.activity.UploadActivity;
 import com.example.kursach.adapters.CategoryAdapter;
 import com.example.kursach.model.CategoryInfo;
+import com.example.kursach.model.HelperClass;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategoryFragment extends Fragment {
 
@@ -53,7 +58,7 @@ public class CategoryFragment extends Fragment {
         recyclerView.setAdapter(categoryAdapter);
 
 
-        fetchCategoriesFromFirebase();
+        fetchUserDataFromFirebase();
         FloatingActionButton fab = view.findViewById(R.id.fab);
 
 
@@ -93,8 +98,36 @@ public class CategoryFragment extends Fragment {
         return view;
     }
 
+    private void fetchUserDataFromFirebase() {
+        String userId;
+        SharedPreferences preferences = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId", "");
 
-    private void fetchCategoriesFromFirebase() {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    HelperClass user = dataSnapshot.getValue(HelperClass.class);
+                    // Use the fetched user data here
+                    if (user != null) {
+                        fetchCategoriesFromFirebase(user);
+                    }
+                } else {
+                    Log.d("FirebaseUserData", "User not found");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
+    }
+
+
+    private void fetchCategoriesFromFirebase(HelperClass user) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("categories");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -103,7 +136,9 @@ public class CategoryFragment extends Fragment {
                 categoryList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     CategoryInfo categoryInfo = snapshot.getValue(CategoryInfo.class);
-                    categoryList.add(categoryInfo);
+                    if (user.getCategoryIds().contains(Objects.requireNonNull(categoryInfo).getId())){
+                        categoryList.add(categoryInfo);
+                    }
 
 
                     Log.d("FirebaseData", "Category Name: " + categoryInfo.getCategoryName());

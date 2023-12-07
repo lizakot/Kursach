@@ -1,8 +1,10 @@
 package com.example.kursach.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,8 +18,18 @@ import android.widget.Toast;
 import com.example.kursach.R;
 import com.example.kursach.fragments.CategoryFragment;
 import com.example.kursach.model.CategoryInfo;
+import com.example.kursach.model.HelperClass;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class UploadActivity extends AppCompatActivity {
 
@@ -91,20 +103,61 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private void saveCategoryInfo(String categoryName, String categoryDescription, int categoryColor, int categoryIcon) {
-        CategoryInfo categoryInfo = new CategoryInfo(categoryName, categoryDescription, categoryColor, categoryIcon);
-
+        String categoryId = UUID.randomUUID().toString();
+        CategoryInfo categoryInfo = new CategoryInfo(categoryId,categoryName, categoryDescription, categoryColor, categoryIcon);
         String key = categoriesRef.push().getKey();
         if (key != null) {
             categoriesRef.child(key).setValue(categoryInfo);
+            updateUsersCategories(categoryId);
             Toast.makeText(UploadActivity.this, "Категория сохранена", Toast.LENGTH_SHORT).show();
             uploadTopic.setText("");
             uploadDescription.setText("");
 
             // Сохранение данных в SharedPreferences
-            saveToSharedPreferences(categoryName, categoryDescription);
         } else {
             Toast.makeText(UploadActivity.this, "Ошибка сохранения категории", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateUsersCategories(String categoryId) {
+        // Assuming you have a userId variable indicating the current user ID
+        String userId;
+        SharedPreferences preferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId", "");
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("categoryIds");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> categoryIds = new ArrayList<>();
+
+                // Retrieve the existing category IDs, if any
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String existingCategoryId = snapshot.getValue(String.class);
+                        categoryIds.add(existingCategoryId);
+                    }
+                }
+
+                // Add the new category ID to the list
+                categoryIds.add(categoryId);
+
+                // Update the user data with the updated category ID list
+                userRef.setValue(categoryIds)
+                        .addOnSuccessListener(aVoid -> {
+                            // Update SharedPreferences after Firebase update
+                            saveToSharedPreferences(categoryName, categoryDescription);
+                        })
+                        .addOnFailureListener(e -> {
+                            // Handle failure
+                            Toast.makeText(UploadActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
     }
 
     private void saveToSharedPreferences(String categoryName, String categoryDescription) {
@@ -142,7 +195,7 @@ public class UploadActivity extends AppCompatActivity {
                 uploadImage.setColorFilter(selectedColor);
 
 
-                CategoryInfo categoryInfo = new CategoryInfo(categoryName, categoryDescription, categoryColor, categoryIcon);
+//                CategoryInfo categoryInfo = new CategoryInfo(categoryName, categoryDescription, categoryColor, categoryIcon);
                 categoryColor = selectedColor;
             }
         }
