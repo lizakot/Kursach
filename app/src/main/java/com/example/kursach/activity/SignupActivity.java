@@ -9,10 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kursach.R;
-import com.example.kursach.model.HashUtils;
 import com.example.kursach.model.HelperClass;
 import com.example.kursach.viewmodels.SignupViewModel;
 import com.google.firebase.database.DatabaseReference;
@@ -76,11 +74,14 @@ public class SignupActivity extends AppCompatActivity {
                     String username = signupUsername.getText().toString();
                     String password = signupPassword.getText().toString();
 
-                    String hashedPassword = HashUtils.hashPassword(password);
-                    Log.d("HashedPassword", hashedPassword);
+                    String userId = reference.push().getKey(); // Генерация уникального ID для нового пользователя
 
-                    HelperClass helperClass = new HelperClass(name, email, username, hashedPassword);
-                    reference.child(username).setValue(helperClass);
+                    HelperClass helperClass = new HelperClass(userId, name, email, username, password);
+
+
+                    reference.child(userId).setValue(helperClass);
+
+
 
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                     startActivity(intent);

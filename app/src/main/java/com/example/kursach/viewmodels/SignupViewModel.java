@@ -45,6 +45,6 @@ public class SignupViewModel extends ViewModel {
     public void validatePassword(String password) {
         // Регулярное выражение для проверки наличия хотя бы одной заглавной буквы и одной цифры
         String passwordRegex = "^(?=.*[A-Z])(?=.*\\d).+$";
-        isPasswordValid.setValue(password.length() >= 8 && password.matches(passwordRegex));
+        isPasswordValid.setValue(password.length() >= 5 && password.matches(passwordRegex));
     }
 }

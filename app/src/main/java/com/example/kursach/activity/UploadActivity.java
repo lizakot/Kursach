@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kursach.R;
+import com.example.kursach.fragments.CategoryFragment;
 import com.example.kursach.model.CategoryInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -119,7 +120,7 @@ public class UploadActivity extends AppCompatActivity {
 
         // Применение изменений
         editor.apply();
-        Intent intent = new Intent(UploadActivity.this, BottomActivity.class);
+        Intent intent = new Intent(UploadActivity.this, CategoryFragment.class);
         intent.putExtra("categoryName", categoryName);
         intent.putExtra("categoryDescription", categoryDescription);
         startActivity(intent);

@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     TextView signupRedirectText;
     LoginViewModel loginViewModel;
+    String userId;
 
 
         @Override
@@ -97,29 +98,35 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     loginUsername.setError(null);
-                    String passwordFromDB = snapshot.child(userUsername).child("password").getValue(String.class);
 
-                    if (passwordFromDB.equals(userPassword)) {
-                        loginUsername.setError(null);
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        String passwordFromDB = userSnapshot.child("password").getValue(String.class);
+                        String userIdFromDB = userSnapshot.getKey();
 
-                        String nameFromDB = snapshot.child(userUsername).child("name").getValue(String.class);
-                        String emailFromDB = snapshot.child(userUsername).child("email").getValue(String.class);
-                        String usernameFromDB = snapshot.child(userUsername).child("username").getValue(String.class);
-
-                        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("name", nameFromDB);
-                        editor.putString("email", emailFromDB);
-                        editor.putString("username", usernameFromDB);
-                        editor.putString("password", passwordFromDB);
-                        editor.apply();
-
-                        Intent intent = new Intent(LoginActivity.this, BottomActivity.class);
+                        Log.d("MyApp", "Полученный пароль из БД: " + passwordFromDB);
+                        Log.d("MyApp", "Полученное имя пользователя из БД: " + userSnapshot.child("username").getValue(String.class));
 
 
-                        startActivity(intent);
-                    } else {
-                        loginPassword.setError("Неверный пароль");
+
+                        if (passwordFromDB.equals(userPassword)) {
+                            // Данные пользователя найдены, сохраняем их в SharedPreferences
+                            String nameFromDB = userSnapshot.child("name").getValue(String.class);
+                            String emailFromDB = userSnapshot.child("email").getValue(String.class);
+                            String usernameFromDB = userSnapshot.child("username").getValue(String.class);
+
+                            SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("name", nameFromDB);
+                            editor.putString("email", emailFromDB);
+                            editor.putString("username", usernameFromDB);
+                            editor.putString("password", passwordFromDB);
+                            editor.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, BottomActivity.class);
+                            startActivity(intent);
+                        } else {
+                            loginPassword.setError("Неверный пароль");
+                        }
                     }
                 } else {
                     loginUsername.setError("Пользователь не существует");
@@ -128,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Обработка ошибок
             }
         });
     }

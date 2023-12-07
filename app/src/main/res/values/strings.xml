@@ -2,5 +2,7 @@
     <string name="app_name">Kursach</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="login">Уже есть аккаунт? login</string>
+    <string name="login">Уже есть аккаунт? <b>Вход</b></string>
+
+    <string name="register">Ещё нет аккаунта? <b>Регистрация</b></string>
 </resources>

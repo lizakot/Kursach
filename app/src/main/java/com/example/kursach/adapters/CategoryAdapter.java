@@ -44,8 +44,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.categoryNameTextView.setText(category.getCategoryName());
         holder.categoryDescriptionTextView.setText(category.getCategoryDescription());
-        holder.categoryColorView.setBackgroundColor(category.getCategoryColor());
         holder.categoryIconImageView.setImageResource(category.getCategoryIcon());
+        holder.categoryIconImageView.setColorFilter(category.getCategoryColor());
 
     }
 
@@ -71,7 +71,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             super(itemView);
             categoryNameTextView = itemView.findViewById(R.id.categoryNameTextView);
             categoryDescriptionTextView = itemView.findViewById(R.id.categoryDescriptionTextView);
-            categoryColorView = itemView.findViewById(R.id.categoryColorView);
             categoryIconImageView = itemView.findViewById(R.id.categoryIconImageView);
         }
     }

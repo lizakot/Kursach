@@ -11,6 +11,16 @@ import java.util.List;
 public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<List<Expense>> expenseList;
+    private MutableLiveData<Integer> balance = new MutableLiveData<>();
+
+    public LiveData<Integer> getBalance() {
+        return balance;
+    }
+
+    // Setter для установки нового значения баланса
+    public void setBalance(int newBalance) {
+        balance.setValue(newBalance);
+    }
 
     public LiveData<List<Expense>> getExpenseList() {
         if (expenseList == null) {
