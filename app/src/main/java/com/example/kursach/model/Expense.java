@@ -2,24 +2,34 @@ package com.example.kursach.model;
 
 public class Expense {
 
-    private String name;
+    private String id;
+    private String iconId;
     private double amount;
     private String date;
 
-    public Expense(String name, double amount, String date) {
-        this.name = name;
+
+    public Expense(String id, String iconId, double amount, String date) {
+        this.id = id;
+        this.iconId = iconId;
         this.amount = amount;
         this.date = date;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
+    public String getIconId() {
+        return iconId;
+    }
+
+    public void setIconId(String iconId) {
+        this.iconId = iconId;
+    }
     public double getAmount() {
         return amount;
     }

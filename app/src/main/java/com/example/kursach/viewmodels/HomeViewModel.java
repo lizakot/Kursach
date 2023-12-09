@@ -35,7 +35,7 @@ public class HomeViewModel extends ViewModel {
         List<Expense> expenses = new ArrayList<>();
 
 
-        Expense expense1 = new Expense("Машина", 30, "02.01.2023");
+        Expense expense1 = new Expense("jkkm" , "Maшина", 200.23,"02.01.2023");
 
         expenses.add(expense1);
 

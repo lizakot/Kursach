@@ -29,7 +29,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     public void onBindViewHolder(@NonNull ExpenseViewHolder holder, int position) {
         Expense expense = expenseList.get(position);
 
-        holder.expenseNameTextView.setText(expense.getName());
         holder.expenseAmountTextView.setText("Сумма: " + expense.getAmount() + "BYN");
         holder.expenseDateTextView.setText("Дата: " + expense.getDate());
     }

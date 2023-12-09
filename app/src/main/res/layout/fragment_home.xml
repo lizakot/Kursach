@@ -64,7 +64,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/card"
+        android:layout_below="@+id/card"
+        android:layout_marginTop="-14dp"
         android:background="@color/white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

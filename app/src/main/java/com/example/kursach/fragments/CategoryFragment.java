@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Spinner;
 
 
 import androidx.annotation.NonNull;
@@ -20,12 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
 import com.example.kursach.R;
+import com.example.kursach.activity.ExpenseManager;
 import com.example.kursach.activity.UploadActivity;
 import com.example.kursach.adapters.CategoryAdapter;
 import com.example.kursach.model.CategoryInfo;
 import com.example.kursach.model.HelperClass;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +39,8 @@ public class CategoryFragment extends Fragment {
     RecyclerView recyclerView;
     CategoryAdapter categoryAdapter;
     List<CategoryInfo> categoryList;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +98,8 @@ public class CategoryFragment extends Fragment {
         return view;
     }
 
+
+
     private void fetchUserDataFromFirebase() {
         String userId;
         SharedPreferences preferences = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
@@ -148,6 +150,7 @@ public class CategoryFragment extends Fragment {
                 }
                 categoryAdapter.notifyDataSetChanged();
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
