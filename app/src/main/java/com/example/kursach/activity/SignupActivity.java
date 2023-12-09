@@ -78,9 +78,11 @@ public class SignupActivity extends AppCompatActivity {
                     String password = signupPassword.getText().toString();
                     List<String> categoryIds = new ArrayList<>();
                     categoryIds.add("");
+                    List<String> expenseIds = new ArrayList<>();
+                    expenseIds.add("");
                     String userId = reference.push().getKey(); // Генерация уникального ID для нового пользователя
 
-                    HelperClass helperClass = new HelperClass(categoryIds,userId, name, email, username, password);
+                    HelperClass helperClass = new HelperClass(categoryIds,userId, name, email, username, password,expenseIds);
 
 
                     reference.child(userId).setValue(helperClass);

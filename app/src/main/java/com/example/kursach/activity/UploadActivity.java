@@ -195,7 +195,7 @@ public class UploadActivity extends AppCompatActivity {
                 uploadImage.setColorFilter(selectedColor);
 
 
-//                CategoryInfo categoryInfo = new CategoryInfo(categoryName, categoryDescription, categoryColor, categoryIcon);
+//
                 categoryColor = selectedColor;
             }
         }

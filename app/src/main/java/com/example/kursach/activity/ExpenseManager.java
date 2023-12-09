@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.kursach.R;
 import com.example.kursach.fragments.CategoryFragment;
 import com.example.kursach.model.CategoryInfo;
+import com.example.kursach.model.Expense;
 import com.example.kursach.model.HelperClass;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -160,7 +161,39 @@ public class ExpenseManager extends AppCompatActivity {
 
 
     private void onSaveClicked() {
-        // Ваша логика сохранения данных здесь
+        String selectedCategory = categorySpinner.getSelectedItem().toString(); // Получаем выбранную категорию
+
+        String userId;
+        SharedPreferences preferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId", "");
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+
+        // Генерируем уникальный ID для нового расхода
+        String expenseId = userRef.child("expenses").push().getKey();
+
+        if (expenseId != null) {
+            double amount = 100.0; // Ваша сумма расхода - здесь нужно получить ее из соответствующего поля
+
+            // Получаем дату из кнопки или откуда-либо еще
+            String date = datePickerButton.getText().toString(); // Пример: "01/01/2023"
+
+            // Создаем объект Expense с полученными данными
+            Expense expense = new Expense(expenseId, selectedCategory, amount, date);
+
+            // Сохраняем расход в базе данных Firebase
+            userRef.child("expenses").child(expenseId).setValue(expense)
+                    .addOnSuccessListener(aVoid -> {
+                        // Расход успешно сохранен
+                        // Добавьте здесь логику, которую нужно выполнить после сохранения расхода
+                    })
+                    .addOnFailureListener(e -> {
+                        // Ошибка сохранения
+                        // Добавьте здесь логику обработки ошибки
+                    });
+        }
     }
+
+
 
 }

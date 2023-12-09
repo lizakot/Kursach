@@ -5,6 +5,8 @@ import java.util.List;
 public class HelperClass {
 
     String id, name, email, username, password;
+    List<String> categoryIds;
+    List<String> expenseIds;
 
     public List<String> getCategoryIds() {
         return categoryIds;
@@ -14,8 +16,13 @@ public class HelperClass {
         this.categoryIds = categoryIds;
     }
 
-    List<String> categoryIds;
+    public List<String> getExpenseIds() {
+        return expenseIds;
+    }
 
+    public void setExpenseIds(List<String> expenseIds) {
+        this.expenseIds = expenseIds;
+    }
 
 
     public void addCategoryId(String categoryId) {
@@ -25,6 +32,15 @@ public class HelperClass {
     public void removeCategoryId(String categoryId) {
         categoryIds.remove(categoryId);
     }
+
+    public void addExpenseId(String expenseId) {
+        expenseIds.add(expenseId);
+    }
+
+    public void removeExpenseId(String expenseId) {
+        expenseIds.remove(expenseId);
+    }
+
 
     public String getId() {
         return id;
@@ -66,13 +82,14 @@ public class HelperClass {
         this.password = password;
     }
 
-    public HelperClass(List<String> categoryIds, String id, String name, String email, String username, String password) {
+    public HelperClass(List<String> categoryIds, String id, String name, String email, String username, String password,List<String> expenseIds) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
         this.categoryIds = categoryIds;
+        this.expenseIds = expenseIds;
     }
 
     public HelperClass() {
