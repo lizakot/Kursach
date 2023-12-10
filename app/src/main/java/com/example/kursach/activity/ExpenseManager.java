@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,11 +15,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.kursach.R;
 import com.example.kursach.fragments.CategoryFragment;
+import com.example.kursach.fragments.HomeFragment;
 import com.example.kursach.model.CategoryInfo;
 import com.example.kursach.model.Expense;
 import com.example.kursach.model.HelperClass;
@@ -35,6 +38,7 @@ import java.util.List;
 public class ExpenseManager extends AppCompatActivity {
     TextView cancelTextView;
     Button saveButton;
+    EditText summ;
 
     Button datePickerButton;
     Calendar calendar;
@@ -51,6 +55,7 @@ public class ExpenseManager extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         datePickerButton = findViewById(R.id.datePickerButton);
         calendar = Calendar.getInstance();
+        summ = findViewById(R.id.summ);
 
         categorySpinner = findViewById(R.id.categorySpinner);
 
@@ -65,7 +70,7 @@ public class ExpenseManager extends AppCompatActivity {
         cancelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Закрываем текущую активность
+
                 finish();
             }
         });
@@ -74,6 +79,10 @@ public class ExpenseManager extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onSaveClicked();
+
+                Intent intent = new Intent(ExpenseManager.this, HomeFragment.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -117,7 +126,7 @@ public class ExpenseManager extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Обработка ошибок
+
                         }
                     });
                 }
@@ -128,7 +137,7 @@ public class ExpenseManager extends AppCompatActivity {
 
     @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Обработка ошибок
+
             }
         });
     }
@@ -140,9 +149,8 @@ public class ExpenseManager extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // Обработка выбранной даты
-                // Здесь можно сохранить выбранную дату или использовать ее в вашем коде
                 String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                // Допустим, вы хотите установить выбранную дату в TextView
+                // установить выбранную дату в TextView
                 datePickerButton.setText(selectedDate);
             }
         };
@@ -173,27 +181,27 @@ public class ExpenseManager extends AppCompatActivity {
         String expenseId = userRef.child("expenses").push().getKey();
 
         if (expenseId != null) {
-            double amount = 100.0; // Ваша сумма расхода - здесь нужно получить ее из соответствующего поля
+            String amountStr = summ.getText().toString(); // Получаем введенную пользователем сумму
 
-            // Получаем дату из кнопки или откуда-либо еще
-            String date = datePickerButton.getText().toString(); // Пример: "01/01/2023"
+            if (!amountStr.isEmpty()) {
+                double amount = Double.parseDouble(amountStr);; // Преобразуем строку в число
 
-            // Создаем объект Expense с полученными данными
-            Expense expense = new Expense(expenseId, selectedCategory, amount, date);
+                // Получаем дату из кнопки
+                String date = datePickerButton.getText().toString();
 
-            // Сохраняем расход в базе данных Firebase
-            userRef.child("expenses").child(expenseId).setValue(expense)
-                    .addOnSuccessListener(aVoid -> {
-                        // Расход успешно сохранен
-                        // Добавьте здесь логику, которую нужно выполнить после сохранения расхода
-                    })
-                    .addOnFailureListener(e -> {
-                        // Ошибка сохранения
-                        // Добавьте здесь логику обработки ошибки
-                    });
+                // Создаем объект Expense с полученными данными
+                Expense expense = new Expense(expenseId, selectedCategory, amount, date);
+
+                // Сохраняем расход в базе данных Firebase
+                userRef.child("expenses").child(expenseId).setValue(expense)
+                        .addOnSuccessListener(aVoid -> {
+
+                        })
+                        .addOnFailureListener(e -> {
+
+                        });
+            }
         }
+
     }
-
-
-
 }

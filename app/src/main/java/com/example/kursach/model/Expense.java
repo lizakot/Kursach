@@ -10,14 +10,15 @@ public class Expense {
     private String date;
 
 
-
-
-
     public Expense(String id, String categoryId, double amount, String date) {
         this.id = id;
         this.categoryId = categoryId;
         this.amount = amount;
         this.date = date;
+    }
+
+    public Expense() {
+
     }
 
     public String getCategoryId() {

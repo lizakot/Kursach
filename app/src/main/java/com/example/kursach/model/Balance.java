@@ -4,7 +4,7 @@ public class Balance {
     private double currentBalance;
 
     public Balance() {
-        // Пустой конструктор требуется для Firebase
+
     }
 
     public Balance(double currentBalance) {
