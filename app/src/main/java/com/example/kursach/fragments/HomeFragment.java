@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,8 @@ import com.example.kursach.R;
 import com.example.kursach.activity.ExpenseManager;
 import com.example.kursach.adapters.ExpenseAdapter;
 import com.example.kursach.model.Expense;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -116,6 +119,35 @@ public class HomeFragment extends Fragment {
                 Log.e("Firebase", "Ошибка чтения расходов", databaseError.toException());
             }
         });
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                String expenseId = expenseAdapter.getExpenseId(position);
+
+
+                String userId = preferences.getString("userId", "");
+                DatabaseReference expenseRefToRemove = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("users")
+                        .child(userId)
+                        .child("expenses")
+                        .child(expenseId);
+
+                expenseRefToRemove.removeValue();
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerViewExpenses);
 
         return view;
     }

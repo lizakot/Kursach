@@ -20,9 +20,14 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     private Context context;
     private List<Expense> expenseList;
 
+
     public ExpenseAdapter(Context context, List<Expense> expenseList) {
         this.context = context;
         this.expenseList = expenseList;
+    }
+
+    public String getExpenseId(int position) {
+        return expenseList.get(position).getId(); 
     }
 
     @NonNull
@@ -42,6 +47,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.categoryIconImageView.setImageResource(expense.getCategoryIcon());
         holder.categoryIconImageView.setColorFilter(expense.getCategoryColor());
 
+    }
+    public void removeItem(int position) {
+        expenseList.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
