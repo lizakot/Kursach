@@ -1,5 +1,4 @@
 package com.example.kursach.fragments;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,17 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kursach.R;
 import com.example.kursach.activity.ExpenseManager;
 import com.example.kursach.adapters.ExpenseAdapter;
-import com.example.kursach.model.Balance;
 import com.example.kursach.model.Expense;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,12 +33,9 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private DatabaseReference balanceRef;
-
+    private DatabaseReference userRef;
     private List<Expense> expenseList;
     private ExpenseAdapter expenseAdapter;
-    private DatabaseReference userRef;
-
-    private DatabaseReference expensesRef;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,33 +51,9 @@ public class HomeFragment extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         userId = preferences.getString("userId", "");
 
-        // Получаем ссылку на базу данных Firebase для расходов пользователя
-        userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId); // Инициализация userRef
+        userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        DatabaseReference expensesRef = userRef.child("expenses");
 
-        expensesRef = userRef.child("expenses");
-
-        // Читаем расходы из базы данных Firebase
-        expensesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                expenseList.clear(); // Очищаем список перед обновлением данных
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Expense expense = snapshot.getValue(Expense.class);
-                    if (expense != null) {
-                        expenseList.add(expense); // Добавляем расход в список
-                    }
-                }
-
-                expenseAdapter.notifyDataSetChanged();
-                Log.d("FirebaseData", "Number of expenses: " + expenseList.size());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Firebase", "Ошибка чтения расходов", databaseError.toException());
-            }
-        });
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,60 +63,74 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-        balanceRef = userRef.child("balance");
-
-
-
         TextView balanceTextView = view.findViewById(R.id.balanceTextView);
-
-        // Читаем текущее значение баланса из базы данных Firebase
-        balanceRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Double currentBalance = dataSnapshot.getValue(Double.class);
-                    if (currentBalance != null) {
-                        // Отображаем текущий баланс в TextView
-                        balanceTextView.setText("Текущий баланс: " + currentBalance + " BYN");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Firebase", "Ошибка чтения баланса", databaseError.toException());
-            }
-        });
-
-        Button saveBalanceButton = view.findViewById(R.id.saveBalance);
         EditText newBalanceEditText = view.findViewById(R.id.newBalanceEditText);
+        Button saveBalanceButton = view.findViewById(R.id.saveBalance);
 
         saveBalanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newBalanceStr = newBalanceEditText.getText().toString();
                 if (!newBalanceStr.isEmpty()) {
-                    double newBalance = Double.parseDouble(newBalanceStr);
+                    float newBalance = Float.parseFloat(newBalanceStr);
 
-                    // Записываем новое значение в базу данных Firebase
-                    balanceRef.setValue(newBalance)
-                            .addOnSuccessListener(aVoid -> {
-                                // Обновляем отображение баланса в TextView
-                                balanceTextView.setText("Текущий баланс: " + newBalance + " BYN");
-                                newBalanceEditText.setText("");
-                                Toast.makeText(getActivity(), "Баланс успешно сохранен", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(getActivity(), "Ошибка сохранения баланса", Toast.LENGTH_SHORT).show();
-                                Log.e("Firebase", "Ошибка сохранения баланса", e);
-                            });
+                    // Сохранение нового баланса в SharedPreferences
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putFloat("currentBalance", newBalance);
+                    editor.apply();
+
+                    balanceTextView.setText("Текущий баланс: " + newBalance + " BYN");
+                    newBalanceEditText.setText("");
+                    Toast.makeText(getActivity(), "Баланс успешно сохранен", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Введите новый баланс", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        // Получение текущего баланса из SharedPreferences
+        float currentBalance = preferences.getFloat("currentBalance", 0.0f);
+        balanceTextView.setText("Текущий баланс: " + currentBalance + " BYN");
+
+        expensesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                expenseList.clear();
+                double totalExpenses = 0;
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Expense expense = snapshot.getValue(Expense.class);
+                    if (expense != null) {
+                        expenseList.add(expense);
+                        totalExpenses += expense.getAmount();
+                    }
+                }
+
+                updateBalance(currentBalance, totalExpenses, balanceTextView);
+                expenseAdapter.notifyDataSetChanged();
+                Log.d("FirebaseData", "Number of expenses: " + expenseList.size());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase", "Ошибка чтения расходов", databaseError.toException());
+            }
+        });
+
         return view;
+    }
+
+    private void updateBalance(float currentBalance, double totalExpenses, TextView balanceTextView) {
+        balanceRef = userRef.child("balance");
+        double updatedBalance = currentBalance - totalExpenses;
+
+        balanceRef.setValue(updatedBalance)
+                .addOnSuccessListener(aVoid -> {
+                    balanceTextView.setText("Текущий баланс: " + updatedBalance + " BYN");
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Ошибка обновления баланса", Toast.LENGTH_SHORT).show();
+                    Log.e("Firebase", "Ошибка обновления баланса", e);
+                });
     }
 }

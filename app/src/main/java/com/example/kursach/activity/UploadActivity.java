@@ -173,10 +173,11 @@ public class UploadActivity extends AppCompatActivity {
 
         // Применение изменений
         editor.apply();
-        Intent intent = new Intent(UploadActivity.this, CategoryFragment.class);
-        intent.putExtra("categoryName", categoryName);
-        intent.putExtra("categoryDescription", categoryDescription);
-        startActivity(intent);
+        onBackPressed();
+//        Intent intent = new Intent(UploadActivity.this, CategoryFragment.class);
+//        intent.putExtra("categoryName", categoryName);
+//        intent.putExtra("categoryDescription", categoryDescription);
+//        startActivity(intent);
     }
 
     @Override

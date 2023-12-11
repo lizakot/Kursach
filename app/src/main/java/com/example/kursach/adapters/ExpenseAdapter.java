@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,8 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.expenseNameTextView.setText(expense.getCategoryId());
         holder.expenseAmountTextView.setText("Сумма: " + String.valueOf(expense.getAmount()) + " BYN");
         holder.expenseDateTextView.setText("Дата: " + expense.getDate());
+        holder.categoryIconImageView.setImageResource(expense.getCategoryIcon());
+        holder.categoryIconImageView.setColorFilter(expense.getCategoryColor());
 
     }
 
@@ -51,11 +54,14 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         TextView expenseAmountTextView;
         TextView expenseDateTextView;
 
+        ImageView categoryIconImageView;
+
         public ExpenseViewHolder(@NonNull View itemView) {
             super(itemView);
             expenseNameTextView = itemView.findViewById(R.id.expenseNameTextView);
             expenseAmountTextView = itemView.findViewById(R.id.expenseAmountTextView);
             expenseDateTextView = itemView.findViewById(R.id.expenseDateTextView);
+            categoryIconImageView = itemView.findViewById(R.id.expenseIconImageView);
         }
     }
 }

@@ -9,12 +9,20 @@ public class Expense {
     private double amount;
     private String date;
 
+    private int categoryIcon;
 
-    public Expense(String id, String categoryId, double amount, String date) {
+    private int categoryColor;
+
+
+
+
+    public Expense(String id, String categoryId, double amount, String date, int categoryIcon, int categoryColor) {
         this.id = id;
         this.categoryId = categoryId;
         this.amount = amount;
         this.date = date;
+        this.categoryColor =  categoryColor;
+        this.categoryIcon = categoryIcon;
     }
 
     public Expense() {
@@ -51,6 +59,22 @@ public class Expense {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getCategoryIcon() {
+        return categoryIcon;
+    }
+
+    public void setCategoryIcon(int categoryIcon) {
+        this.categoryIcon = categoryIcon;
+    }
+
+    public int getCategoryColor() {
+        return categoryColor;
+    }
+
+    public void setCategoryColor(int categoryColor) {
+        this.categoryColor = categoryColor;
     }
 }
 

@@ -1,15 +1,21 @@
 package com.example.kursach.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kursach.R;
+import com.example.kursach.model.Expense;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -24,136 +30,126 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Set;
+
 import androidx.core.content.ContextCompat;
 
 
 public class ReportsFragment extends Fragment {
 
     private PieChart pieChart;
-    private BarChart barChart;
+    private DatabaseReference userRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reports, container, false);
 
+        String userId;
+        SharedPreferences preferences = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId", "");
+        userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
         pieChart = view.findViewById(R.id.pieChart);
-        barChart = view.findViewById(R.id.barChart);
 
+        List<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
 
-        setupPieChart();
+        fetchExpenseDataForPieChart();
 
-
-        setupBarChart();
+        setupPieChart(entries, colors);
 
         return view;
     }
 
-    private void setupPieChart() {
-        List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(18.5f, ""));
-        entries.add(new PieEntry(26.7f, ""));
-        entries.add(new PieEntry(24.0f, ""));
 
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(ContextCompat.getColor(requireContext(), R.color.cornflower_blue));
-        colors.add(ContextCompat.getColor(requireContext(), R.color.green));
-        colors.add(ContextCompat.getColor(requireContext(), R.color.yellow));
-
-        List<String> labels = new ArrayList<>();
-        labels.add("Продукты");
-        labels.add("Еда");
-        labels.add("Аптека");
-
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setColors(colors);
-        dataSet.setDrawValues(false);
-
-        PieData data = new PieData(dataSet);
-        pieChart.setData(data);
-        pieChart.invalidate();
-
-
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.SQUARE);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setDrawInside(false);
-        legend.setWordWrapEnabled(true);
-        legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
-
-
-        LegendEntry[] legendEntries = new LegendEntry[colors.size()];
-        for (int i = 0; i < colors.size(); i++) {
-            LegendEntry entry = new LegendEntry();
-            entry.formColor = colors.get(i);
-            entry.label = labels.get(i) + " (" + entries.get(i).getValue() + "%)"; // Добавляем проценты к метке
-            legendEntries[i] = entry;
-        }
-
-        legend.setCustom(legendEntries);
-        pieChart.getDescription().setEnabled(false);
-
+    private int getRandomColor() {
+        Random rnd = new Random();
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
     }
 
-    private void setupBarChart() {
-        List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(1, 350));
-        entries.add(new BarEntry(2, 450));
-        entries.add(new BarEntry(3, 600));
+    private void fetchExpenseDataForPieChart() {
+        DatabaseReference expensesRef = userRef.child("expenses");
 
-        List<String> monthLabels = new ArrayList<>();
-        monthLabels.add("Январь");
-        monthLabels.add("Февраль");
-        monthLabels.add("Март");
+        expensesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Float> categoryExpenses = new HashMap<>();
 
-        int[] colorsArray = new int[]{
-                ContextCompat.getColor(requireContext(), R.color.lavender),
-                ContextCompat.getColor(requireContext(), R.color.yellow),
-                ContextCompat.getColor(requireContext(), R.color.rose)
-        };
+                // Обход данных о расходах
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Expense expense = snapshot.getValue(Expense.class);
+                    if (expense != null) {
+                        String category = expense.getCategoryId();
+                        float amount = (float) expense.getAmount();
 
-        BarDataSet dataSet = new BarDataSet(entries, "");
-        dataSet.setColors(colorsArray);
-        dataSet.setDrawValues(false);
+                        // Если категория уже есть в списке, добавляем сумму к уже имеющейся
+                        if (categoryExpenses.containsKey(category)) {
+                            float currentAmount = categoryExpenses.get(category);
+                            categoryExpenses.put(category, currentAmount + amount);
+                        } else {
+                            categoryExpenses.put(category, amount);
+                        }
+                    }
+                }
 
-        BarData data = new BarData(dataSet);
-        data.setBarWidth(0.9f);
-        barChart.setData(data);
+                // Создание PieEntries на основе сумм расходов по категориям
+                List<PieEntry> entries = new ArrayList<>();
+                List<Integer> colors = new ArrayList<>();
 
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setTextSize(10f);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(monthLabels));
-        xAxis.setCenterAxisLabels(true);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularityEnabled(true);
-        xAxis.setGranularity(1f);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(false);
+                for (Map.Entry<String, Float> entry : categoryExpenses.entrySet()) {
+                    entries.add(new PieEntry(entry.getValue(), entry.getKey()));
+                    colors.add(getRandomColor());
+                }
 
+                // Постройте график на основе собранных данных
+                setupPieChart(entries, colors);
+            }
 
-        YAxis yAxisLeft = barChart.getAxisLeft();
-        yAxisLeft.setValueFormatter(new ValueFormatter() {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void setupPieChart(List<PieEntry> entries, List<Integer> colors) {
+        PieDataSet dataSet = new PieDataSet(entries, "");
+
+        dataSet.setColors(colors);
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setDrawValues(true);
+
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(10f);
+        data.setValueTextColor(Color.WHITE);
+
+        // Форматтер для значений графика
+        data.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return value + " BYN";
+                return String.valueOf((int) value) + " BYN";
             }
         });
 
-        YAxis yAxisRight = barChart.getAxisRight();
-        yAxisRight.setEnabled(false);
+        pieChart.setData(data);
+        pieChart.invalidate();
 
-        Legend legend = barChart.getLegend();
-        legend.setEnabled(false);
-
-        barChart.invalidate();
-        barChart.getDescription().setEnabled(false);
+        pieChart.getDescription().setEnabled(false);
     }
-
-
 }
+

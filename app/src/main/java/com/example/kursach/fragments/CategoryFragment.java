@@ -123,7 +123,6 @@ public class CategoryFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle errors
             }
         });
     }

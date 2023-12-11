@@ -133,7 +133,7 @@
                 android:id="@+id/textError4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Убедитесь, что пароль содержит как минимум 8 символом, включая одну заглавную букву и одну цифру "
+                android:text="Убедитесь, что пароль содержит как минимум 5 символом, включая одну заглавную букву и одну цифру "
                 android:visibility="gone"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="24dp"

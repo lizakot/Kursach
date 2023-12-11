@@ -44,7 +44,7 @@ public class ExpenseManager extends AppCompatActivity {
     Calendar calendar;
     Spinner categorySpinner;
 
-
+    List<CategoryInfo> catInfo = new ArrayList<>();
 
 
     @Override
@@ -80,9 +80,7 @@ public class ExpenseManager extends AppCompatActivity {
             public void onClick(View v) {
                 onSaveClicked();
 
-                Intent intent = new Intent(ExpenseManager.this, HomeFragment.class);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
 
@@ -113,6 +111,7 @@ public class ExpenseManager extends AppCompatActivity {
                                 CategoryInfo categoryInfo = snapshot.getValue(CategoryInfo.class);
                                 if (categoryInfo != null && categoryIds.contains(categoryInfo.getId())) {
                                     categoryNames.add(categoryInfo.getCategoryName()); // Добавление названий категорий в список
+                                    catInfo.add(categoryInfo);
                                 }
                             }
 
@@ -170,6 +169,14 @@ public class ExpenseManager extends AppCompatActivity {
 
     private void onSaveClicked() {
         String selectedCategory = categorySpinner.getSelectedItem().toString(); // Получаем выбранную категорию
+        int icon = 0;
+        int color = 0;
+        for (int i = 0; i < catInfo.size(); i++){
+            if (selectedCategory == catInfo.get(i).getCategoryName()){
+                icon = catInfo.get(i).getCategoryIcon();
+                color = catInfo.get(i).getCategoryColor();
+            }
+        }
 
         String userId;
         SharedPreferences preferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
@@ -190,7 +197,7 @@ public class ExpenseManager extends AppCompatActivity {
                 String date = datePickerButton.getText().toString();
 
                 // Создаем объект Expense с полученными данными
-                Expense expense = new Expense(expenseId, selectedCategory, amount, date);
+                Expense expense = new Expense(expenseId, selectedCategory, amount, date, icon, color);
 
                 // Сохраняем расход в базе данных Firebase
                 userRef.child("expenses").child(expenseId).setValue(expense)
