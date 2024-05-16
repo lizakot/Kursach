@@ -3,6 +3,8 @@ package com.example.kursach.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -109,7 +111,7 @@ public class UploadActivity extends AppCompatActivity {
         if (key != null) {
             categoriesRef.child(key).setValue(categoryInfo);
             updateUsersCategories(categoryId);
-            Toast.makeText(UploadActivity.this, "Категория сохранена", Toast.LENGTH_SHORT).show();
+
             uploadTopic.setText("");
             uploadDescription.setText("");
 
@@ -173,11 +175,20 @@ public class UploadActivity extends AppCompatActivity {
 
         // Применение изменений
         editor.apply();
+        CategoryFragment categoryFragment = new CategoryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("categoryName", categoryName);
+        bundle.putString("categoryDescription", categoryDescription);
+        categoryFragment.setArguments(bundle);
+
+        // Замена текущего фрагмента новым без добавления в стек возврата
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, categoryFragment);
+        fragmentTransaction.commitNow(); // Используем commitNow() вместо commit()
+
+        // Вызов onBackPressed() для возврата к предыдущей активности
         onBackPressed();
-//        Intent intent = new Intent(UploadActivity.this, CategoryFragment.class);
-//        intent.putExtra("categoryName", categoryName);
-//        intent.putExtra("categoryDescription", categoryDescription);
-//        startActivity(intent);
     }
 
     @Override
@@ -196,7 +207,6 @@ public class UploadActivity extends AppCompatActivity {
                 uploadImage.setColorFilter(selectedColor);
 
 
-//
                 categoryColor = selectedColor;
             }
         }

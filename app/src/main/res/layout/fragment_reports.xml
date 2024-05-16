@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="12dp"
-        app:cardPreventCornerOverlap="false">
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:cardPreventCornerOverlap="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,13 +29,44 @@
                 android:text="Расходы по категориям"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:padding="24dp"/>
+                android:padding="15dp"/>
 
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
+                android:background="@color/white"
+                tools:ignore="MissingClass" />
+        </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Расходы по месяцам"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="15dp"/>
+
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
                 android:background="@color/white"
                 tools:ignore="MissingClass" />
         </LinearLayout>

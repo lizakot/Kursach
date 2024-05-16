@@ -82,7 +82,7 @@ public class HelperClass {
         this.password = password;
     }
 
-    public HelperClass(List<String> categoryIds, String id, String name, String email, String username, String password,List<String> expenseIds) {
+    public HelperClass(List<String> categoryIds, String id, String name, String email, String username, String password, List<String> expenseIds) {
         this.id = id;
         this.name = name;
         this.email = email;

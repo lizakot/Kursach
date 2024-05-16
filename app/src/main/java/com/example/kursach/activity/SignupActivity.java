@@ -1,4 +1,5 @@
 package com.example.kursach.activity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -48,7 +49,7 @@ public class SignupActivity extends AppCompatActivity {
         textError3 = findViewById(R.id.textError3);
         textError4 = findViewById(R.id.textError4);
 
-        // Определение наблюдателей для обновления UI в соответствии с результатами валидации
+
         signupViewModel.getIsNameValid().observe(this, isNameValid -> {
             textError1.setVisibility(isNameValid ? View.GONE : View.VISIBLE);
         });
@@ -80,13 +81,12 @@ public class SignupActivity extends AppCompatActivity {
                     categoryIds.add("");
                     List<String> expenseIds = new ArrayList<>();
                     expenseIds.add("");
-                    String userId = reference.push().getKey(); // Генерация уникального ID для нового пользователя
+                    String userId = reference.push().getKey();
 
-                    HelperClass helperClass = new HelperClass(categoryIds,userId, name, email, username, password,expenseIds);
+                    HelperClass helperClass = new HelperClass(categoryIds, userId, name, email, username, password, expenseIds);
 
 
                     reference.child(userId).setValue(helperClass);
-
 
 
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);

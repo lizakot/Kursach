@@ -51,6 +51,7 @@ import androidx.core.content.ContextCompat;
 public class ReportsFragment extends Fragment {
 
     private PieChart pieChart;
+    private BarChart barChart;
     private DatabaseReference userRef;
 
     @Override
@@ -64,14 +65,18 @@ public class ReportsFragment extends Fragment {
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
         pieChart = view.findViewById(R.id.pieChart);
+        barChart = view.findViewById(R.id.barChart);
+
+
 
         List<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         fetchExpenseDataForPieChart();
-
+        fetchExpenseDataForBarChart();
         setupPieChart(entries, colors);
+
 
         return view;
     }
@@ -151,5 +156,88 @@ public class ReportsFragment extends Fragment {
 
         pieChart.getDescription().setEnabled(false);
     }
+
+    private void fetchExpenseDataForBarChart() {
+        DatabaseReference expensesRef = userRef.child("expenses");
+
+        expensesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Float> monthlyExpenses = new HashMap<>();
+
+                List<BarEntry> entries = new ArrayList<>();
+                List<String> monthLabels = new ArrayList<>();
+                List<Integer> barColors = new ArrayList<>(); // Создайте список для цветов столбцов
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Expense expense = snapshot.getValue(Expense.class);
+                    if (expense != null) {
+                        String month = expense.getDate();
+
+                        if (monthlyExpenses.containsKey(month)) {
+                            float currentAmount = monthlyExpenses.get(month);
+                            monthlyExpenses.put(month, currentAmount + (float) expense.getAmount());
+                        } else {
+                            monthlyExpenses.put(month, (float) expense.getAmount());
+                        }
+                    }
+                }
+
+                int index = 0;
+                for (Map.Entry<String, Float> entry : monthlyExpenses.entrySet()) {
+                    entries.add(new BarEntry(index + 1, entry.getValue()));
+                    monthLabels.add(entry.getKey());
+                    barColors.add(getRandomColor());
+                    index++;
+                }
+
+                setupBarChart(entries, monthLabels, barColors);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setupBarChart(List<BarEntry> entries, List<String> monthLabels, List<Integer> barColors) {
+        BarDataSet dataSet = new BarDataSet(entries, "Расходы по месяцам");
+        dataSet.setColors(barColors);
+
+        BarData data = new BarData(dataSet);
+        data.setBarWidth(0.9f);
+        barChart.setData(data);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setTextSize(10f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(monthLabels));
+        xAxis.setCenterAxisLabels(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setGranularity(1f);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(false);
+
+        xAxis.setLabelCount(monthLabels.size());
+
+        YAxis yAxisLeft = barChart.getAxisLeft();
+        yAxisLeft.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return value + " BYN";
+            }
+        });
+
+        YAxis yAxisRight = barChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+
+        Legend legend = barChart.getLegend();
+        legend.setEnabled(false);
+
+        barChart.invalidate();
+        barChart.getDescription().setEnabled(false);
+    }
 }
+
 

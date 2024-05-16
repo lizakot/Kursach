@@ -1,4 +1,5 @@
 package com.example.kursach.fragments;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,8 +23,6 @@ import com.example.kursach.R;
 import com.example.kursach.activity.ExpenseManager;
 import com.example.kursach.adapters.ExpenseAdapter;
 import com.example.kursach.model.Expense;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +38,7 @@ public class HomeFragment extends Fragment {
     private DatabaseReference userRef;
     private List<Expense> expenseList;
     private ExpenseAdapter expenseAdapter;
+    private TextView balanceTextView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        TextView balanceTextView = view.findViewById(R.id.balanceTextView);
+        balanceTextView = view.findViewById(R.id.balanceTextView);
         EditText newBalanceEditText = view.findViewById(R.id.newBalanceEditText);
         Button saveBalanceButton = view.findViewById(R.id.saveBalance);
 
@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment {
                 if (!newBalanceStr.isEmpty()) {
                     float newBalance = Float.parseFloat(newBalanceStr);
 
-                    // Сохранение нового баланса в SharedPreferences
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putFloat("currentBalance", newBalance);
                     editor.apply();
@@ -90,10 +89,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
-        // Получение текущего баланса из SharedPreferences
-        float currentBalance = preferences.getFloat("currentBalance", 0.0f);
-        balanceTextView.setText("Текущий баланс: " + currentBalance + " BYN");
 
         expensesRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -109,7 +104,10 @@ public class HomeFragment extends Fragment {
                     }
                 }
 
-                updateBalance(currentBalance, totalExpenses, balanceTextView);
+                float currentBalance = preferences.getFloat("currentBalance", 0.0f);
+                double updatedBalance = currentBalance - totalExpenses;
+                balanceTextView.setText("Текущий баланс: " + updatedBalance + " BYN");
+                updateBalance(currentBalance, totalExpenses);
                 expenseAdapter.notifyDataSetChanged();
                 Log.d("FirebaseData", "Number of expenses: " + expenseList.size());
             }
@@ -119,6 +117,7 @@ public class HomeFragment extends Fragment {
                 Log.e("Firebase", "Ошибка чтения расходов", databaseError.toException());
             }
         });
+
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(
                 0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -132,7 +131,6 @@ public class HomeFragment extends Fragment {
 
                 String expenseId = expenseAdapter.getExpenseId(position);
 
-
                 String userId = preferences.getString("userId", "");
                 DatabaseReference expenseRefToRemove = FirebaseDatabase.getInstance()
                         .getReference()
@@ -142,7 +140,6 @@ public class HomeFragment extends Fragment {
                         .child(expenseId);
 
                 expenseRefToRemove.removeValue();
-
             }
         };
 
@@ -152,14 +149,12 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void updateBalance(float currentBalance, double totalExpenses, TextView balanceTextView) {
+    private void updateBalance(float currentBalance, double totalExpenses) {
         balanceRef = userRef.child("balance");
         double updatedBalance = currentBalance - totalExpenses;
 
         balanceRef.setValue(updatedBalance)
-                .addOnSuccessListener(aVoid -> {
-                    balanceTextView.setText("Текущий баланс: " + updatedBalance + " BYN");
-                })
+                .addOnSuccessListener(aVoid -> {})
                 .addOnFailureListener(e -> {
                     Toast.makeText(getActivity(), "Ошибка обновления баланса", Toast.LENGTH_SHORT).show();
                     Log.e("Firebase", "Ошибка обновления баланса", e);

@@ -2,7 +2,9 @@ package com.example.kursach.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,8 +48,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     resultIntent.putExtra("edited_password", editPassword.getText().toString());
                     setResult(RESULT_OK, resultIntent);
                     finish();
-                } else {
-                    Toast.makeText(EditProfileActivity.this, "No Changes Found", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -55,8 +55,12 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private boolean isNameChanged() {
+        String userId;
+        SharedPreferences preferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId", "");
+
         if (!nameUser.equals(editName.getText().toString())){
-            reference.child(usernameUser).child("name").setValue(editName.getText().toString());
+            reference.child(userId).child("name").setValue(editName.getText().toString());
             nameUser = editName.getText().toString();
             return true;
         } else {
@@ -65,8 +69,11 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private boolean isEmailChanged() {
+        String userId;
+        SharedPreferences preferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId", "");
         if (!emailUser.equals(editEmail.getText().toString())){
-            reference.child(usernameUser).child("email").setValue(editEmail.getText().toString());
+            reference.child(userId).child("email").setValue(editEmail.getText().toString());
             emailUser = editEmail.getText().toString();
             return true;
         } else {
@@ -76,8 +83,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     private boolean isPasswordChanged() {
+        String userId;
+        SharedPreferences preferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId", "");
         if (!passwordUser.equals(editPassword.getText().toString())){
-            reference.child(usernameUser).child("password").setValue(editPassword.getText().toString());
+            reference.child(userId).child("password").setValue(editPassword.getText().toString());
             passwordUser = editPassword.getText().toString();
             return true;
         } else {

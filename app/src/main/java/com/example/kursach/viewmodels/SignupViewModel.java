@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 public class SignupViewModel extends ViewModel {
 
-    private MutableLiveData<Boolean> isNameValid = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isNameValid = new MutableLiveData<>(); // расширяте и и методы для изменения данных в liveData
     private MutableLiveData<Boolean> isEmailValid = new MutableLiveData<>();
     private MutableLiveData<Boolean> isUsernameValid = new MutableLiveData<>();
     private MutableLiveData<Boolean> isPasswordValid = new MutableLiveData<>();
@@ -33,17 +33,14 @@ public class SignupViewModel extends ViewModel {
     }
 
     public void validateEmail(String email) {
-        // Проверка на наличие символа "@" в адресе электронной почты
         isEmailValid.setValue(Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     public void validateUsername(String username) {
-        // Проверка, что введенное имя пользователя не содержит пробелов
-        isUsernameValid.setValue(!username.isEmpty() && !username.contains(" "));
+        isUsernameValid.setValue(!username.isEmpty() && !username.contains(" ")); // для основного потока
     }
 
     public void validatePassword(String password) {
-        // Регулярное выражение для проверки наличия хотя бы одной заглавной буквы и одной цифры
         String passwordRegex = "^(?=.*[A-Z])(?=.*\\d).+$";
         isPasswordValid.setValue(password.length() >= 5 && password.matches(passwordRegex));
     }
