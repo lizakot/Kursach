@@ -1,25 +1,22 @@
-package com.example.kursach.fragments;
+package com.example.kursach.activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.MenuItem;
 
 import com.example.kursach.R;
 import com.example.kursach.model.Expense;
+import com.example.kursach.model.Income;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -30,6 +27,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,35 +36,58 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
-import androidx.core.content.ContextCompat;
-
-
-public class ReportsFragment extends Fragment {
+public class ReportsActivity extends AppCompatActivity {
 
     private PieChart pieChart;
     private BarChart barChart;
     private DatabaseReference userRef;
 
+    @SuppressLint("MissingInflatedId")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_reports, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reports);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.home) {
+                    startActivity(new Intent(ReportsActivity.this, HomeActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                } else if (itemId == R.id.reports) {
+                    // Переход на ReportsActivity при выборе "Графики"
+                    return true;
+                } else if (itemId == R.id.category) {
+                    // Переход на CategoryActivity при выборе "Категории"
+                    startActivity(new Intent(ReportsActivity.this, CategoryActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                } else if (itemId == R.id.profile) {
+                    // Переход на ProfileActivity при выборе "Профиль"
+                    startActivity(new Intent(ReportsActivity.this, ProfileActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        bottomNavigationView.setSelectedItemId(R.id.reports);
 
         String userId;
-        SharedPreferences preferences = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         userId = preferences.getString("userId", "");
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
-        pieChart = view.findViewById(R.id.pieChart);
-        barChart = view.findViewById(R.id.barChart);
-
+        pieChart = findViewById(R.id.pieChart);
+        barChart = findViewById(R.id.barChart);
 
 
         List<PieEntry> entries = new ArrayList<>();
@@ -74,11 +95,9 @@ public class ReportsFragment extends Fragment {
         List<String> labels = new ArrayList<>();
 
         fetchExpenseDataForPieChart();
-        fetchExpenseDataForBarChart();
+        fetchIncomeDataForBarChart();
         setupPieChart(entries, colors);
 
-
-        return view;
     }
 
 
@@ -157,59 +176,50 @@ public class ReportsFragment extends Fragment {
         pieChart.getDescription().setEnabled(false);
     }
 
-    private void fetchExpenseDataForBarChart() {
-        DatabaseReference expensesRef = userRef.child("expenses");
+    private void fetchIncomeDataForBarChart() {
+        DatabaseReference incomeRef= userRef.child("incomes");
 
-        expensesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        incomeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Float> monthlyExpenses = new HashMap<>();
-
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Float> monthlyIncome = new HashMap<>();
                 List<BarEntry> entries = new ArrayList<>();
                 List<String> monthLabels = new ArrayList<>();
-                List<Integer> barColors = new ArrayList<>(); // Создайте список для цветов столбцов
-
+                List<Integer> barColors = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Expense expense = snapshot.getValue(Expense.class);
-                    if (expense != null) {
-                        String month = expense.getDate();
-
-                        if (monthlyExpenses.containsKey(month)) {
-                            float currentAmount = monthlyExpenses.get(month);
-                            monthlyExpenses.put(month, currentAmount + (float) expense.getAmount());
+                    Income income= snapshot.getValue(Income.class);
+                    if (income != null) {
+                        String month= income.getDate();
+                        if (monthlyIncome.containsKey(month)) {
+                            float currentAmount= monthlyIncome.get(month);
+                            monthlyIncome.put(month, currentAmount + (float) income.getAmount());
                         } else {
-                            monthlyExpenses.put(month, (float) expense.getAmount());
+                            monthlyIncome.put(month, (float) income.getAmount());
                         }
                     }
-                }
-
-                int index = 0;
-                for (Map.Entry<String, Float> entry : monthlyExpenses.entrySet()) {
+                 }
+                int index=0;
+                for (Map.Entry<String, Float> entry : monthlyIncome.entrySet()) {
                     entries.add(new BarEntry(index + 1, entry.getValue()));
                     monthLabels.add(entry.getKey());
                     barColors.add(getRandomColor());
                     index++;
                 }
-
                 setupBarChart(entries, monthLabels, barColors);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
     }
-
     private void setupBarChart(List<BarEntry> entries, List<String> monthLabels, List<Integer> barColors) {
-        BarDataSet dataSet = new BarDataSet(entries, "Расходы по месяцам");
+        BarDataSet dataSet=new BarDataSet(entries, "Доходы по месяцам");
         dataSet.setColors(barColors);
-
-        BarData data = new BarData(dataSet);
+        BarData data=new BarData(dataSet);
         data.setBarWidth(0.9f);
         barChart.setData(data);
-
-        XAxis xAxis = barChart.getXAxis();
+        XAxis xAxis= barChart.getXAxis();
         xAxis.setTextSize(10f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(monthLabels));
         xAxis.setCenterAxisLabels(true);
@@ -218,26 +228,19 @@ public class ReportsFragment extends Fragment {
         xAxis.setGranularity(1f);
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
-
         xAxis.setLabelCount(monthLabels.size());
-
-        YAxis yAxisLeft = barChart.getAxisLeft();
+        YAxis yAxisLeft= barChart.getAxisLeft();
         yAxisLeft.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return value + " BYN";
+            return value + " BYN";
             }
         });
-
-        YAxis yAxisRight = barChart.getAxisRight();
+        YAxis yAxisRight= barChart.getAxisRight();
         yAxisRight.setEnabled(false);
-
-        Legend legend = barChart.getLegend();
+        Legend legend= barChart.getLegend();
         legend.setEnabled(false);
-
         barChart.invalidate();
         barChart.getDescription().setEnabled(false);
     }
 }
-
-

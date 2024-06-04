@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/profile"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".activity.ProfileActivity">
+
 
     <ImageButton
         android:id="@+id/logoutButton"
@@ -23,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="0dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
@@ -31,25 +32,25 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="609dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/yellow_border"
             android:padding="20dp">
 
             <ImageView
+                android:id="@+id/profileImg"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/profileImg"
                 android:layout_marginTop="30dp"
                 android:src="@drawable/baseline_person_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/titleName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/titleName"
                 android:layout_marginTop="0dp"
                 android:text="Имя"
                 android:textColor="@color/black"
@@ -57,55 +58,53 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/profileImg"
                 app:layout_constraintStart_toStartOf="@id/profileImg"
-                app:layout_constraintTop_toBottomOf="@id/profileImg"/>
-
+                app:layout_constraintTop_toBottomOf="@id/profileImg" />
 
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/linearLayout"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/white_background"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:background="@drawable/white_background"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleName">
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="8dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/name"
                         android:layout_weight="1"
                         android:text="Имя"
-                        android:textStyle="bold"
                         android:textColor="@color/yellow"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/profileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/profileName"
-                        android:text="имя"
                         android:layout_weight="1"
+                        android:text="имя"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -114,34 +113,34 @@
                     android:layout_height="1dp"
                     android:layout_margin="10dp"
                     android:alpha="0.5"
-                    android:background="@color/yellow"/>
+                    android:background="@color/yellow" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:padding="8dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/email"
                         android:layout_weight="1"
                         android:text="Почта"
-                        android:textStyle="bold"
                         android:textColor="@color/yellow"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/profileEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/profileEmail"
-                        android:text="почта"
                         android:layout_weight="1"
+                        android:text="почта"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -150,24 +149,24 @@
                     android:layout_height="1dp"
                     android:layout_margin="10dp"
                     android:alpha="0.5"
-                    android:background="@color/yellow"/>
+                    android:background="@color/yellow" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:padding="8dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/username"
                         android:layout_weight="1"
                         android:text="Имя пользователя"
-                        android:textStyle="bold"
                         android:textColor="@color/yellow"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/profileUsername"
@@ -186,31 +185,31 @@
                     android:layout_height="1dp"
                     android:layout_margin="10dp"
                     android:alpha="0.5"
-                    android:background="@color/yellow"/>
+                    android:background="@color/yellow" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:padding="8dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/password"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/password"
                         android:layout_weight="1"
                         android:text="Пароль"
-                        android:textStyle="bold"
                         android:textColor="@color/yellow"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/profilePassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/profilePassword"
-                        android:text="пароль"
                         android:layout_weight="1"
+                        android:text="пароль"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
@@ -223,11 +222,11 @@
                 android:id="@+id/editButton"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/yellow"
                 android:gravity="center"
                 android:text="Редактировать"
                 android:textSize="18sp"
-                android:layout_marginTop="10dp"
                 app:cornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/linearLayout"
@@ -239,6 +238,20 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:elevation="2dp"
+        app:itemIconSize="30dp"
+        android:background="@color/yellow"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
+        app:menu="@menu/bottom_menu" />
 
 
 </RelativeLayout>

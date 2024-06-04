@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ReportsActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:cardPreventCornerOverlap="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Расходы по категориям"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:padding="15dp"/>
+
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/white"
+            tools:ignore="MissingClass" />
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:cardPreventCornerOverlap="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottomNavigation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:elevation="2dp"
+    app:itemIconSize="30dp"
+    android:background="@color/yellow"
+    app:labelVisibilityMode="labeled"
+    app:itemIconTint="@color/bottom_nav_item_color"
+    app:itemTextColor="@color/bottom_nav_item_color"
+    app:menu="@menu/bottom_menu" />
+
+    <TextView
+        android:layout_width="238dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/barChart"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="90dp"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="2dp"
+        android:padding="15dp"
+        android:text="Доходы по месяцам"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_above="@+id/bottomNavigation"
+        android:layout_marginBottom="40dp"
+        android:background="@color/white"
+        tools:ignore="MissingClass" />
+
+
+</RelativeLayout>

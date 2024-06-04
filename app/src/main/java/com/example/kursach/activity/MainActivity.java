@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         textSigUp = findViewById(R.id.textSigUp);
 
         textSigUp.setOnClickListener(view -> {
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SignupActivity.class);
             startActivity(intent);
         });
-
     }
 }
 

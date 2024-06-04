@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kursach.R;
@@ -19,6 +20,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     EditText editName, editEmail, editUsername, editPassword;
     Button saveButton;
+    TextView cancelTextView1;
     String nameUser, emailUser, usernameUser, passwordUser;
     DatabaseReference reference;
 
@@ -34,6 +36,7 @@ public class EditProfileActivity extends AppCompatActivity {
         editUsername = findViewById(R.id.editUsername);
         editPassword = findViewById(R.id.editPassword);
         saveButton = findViewById(R.id.saveButton);
+        cancelTextView1 = findViewById(R.id.cancelTextView1);
 
         showData();
 
@@ -52,6 +55,13 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+        cancelTextView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Закрываем текущую активность
+                finish();
+            }
+        });
     }
 
     private boolean isNameChanged() {

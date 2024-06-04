@@ -3,8 +3,6 @@ package com.example.kursach.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,10 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kursach.R;
-import com.example.kursach.fragments.CategoryFragment;
 import com.example.kursach.model.CategoryInfo;
-import com.example.kursach.model.HelperClass;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class UploadActivity extends AppCompatActivity {
@@ -101,12 +95,12 @@ public class UploadActivity extends AppCompatActivity {
         categoryName = uploadTopic.getText().toString();
         categoryDescription = uploadDescription.getText().toString();
 
-        saveCategoryInfo(categoryName, categoryDescription,  categoryColor, categoryIcon);
+        saveCategoryInfo(categoryName, categoryDescription, categoryColor, categoryIcon);
     }
 
     private void saveCategoryInfo(String categoryName, String categoryDescription, int categoryColor, int categoryIcon) {
         String categoryId = UUID.randomUUID().toString();
-        CategoryInfo categoryInfo = new CategoryInfo(categoryId,categoryName, categoryDescription, categoryColor, categoryIcon);
+        CategoryInfo categoryInfo = new CategoryInfo(categoryId, categoryName, categoryDescription, categoryColor, categoryIcon);
         String key = categoriesRef.push().getKey();
         if (key != null) {
             categoriesRef.child(key).setValue(categoryInfo);
@@ -175,20 +169,13 @@ public class UploadActivity extends AppCompatActivity {
 
         // Применение изменений
         editor.apply();
-        CategoryFragment categoryFragment = new CategoryFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("categoryName", categoryName);
-        bundle.putString("categoryDescription", categoryDescription);
-        categoryFragment.setArguments(bundle);
 
-        // Замена текущего фрагмента новым без добавления в стек возврата
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, categoryFragment);
-        fragmentTransaction.commitNow(); // Используем commitNow() вместо commit()
+        // Запускаем CategoryActivity
+        Intent intent = new Intent(UploadActivity.this, CategoryActivity.class);
+        startActivity(intent);
 
-        // Вызов onBackPressed() для возврата к предыдущей активности
-        onBackPressed();
+        // Закрываем текущую активность
+        finish();
     }
 
     @Override
@@ -205,11 +192,8 @@ public class UploadActivity extends AppCompatActivity {
             int selectedColor = data.getIntExtra("selectedColor", 0);
             if (selectedColor != 0) {
                 uploadImage.setColorFilter(selectedColor);
-
-
                 categoryColor = selectedColor;
             }
         }
     }
 }
-

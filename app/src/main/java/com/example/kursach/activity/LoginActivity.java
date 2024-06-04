@@ -85,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-
     public void checkUser() {
         String userUsername = loginUsername.getText().toString().trim();
         String userPassword = loginPassword.getText().toString().trim();
@@ -123,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("password", passwordFromDB);
                             editor.apply();
 
-                            Intent intent = new Intent(LoginActivity.this, BottomActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                         } else {
                             loginPassword.setError("Неверный пароль");

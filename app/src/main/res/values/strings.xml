@@ -5,4 +5,6 @@
     <string name="login">Уже есть аккаунт? <b>Вход</b></string>
 
     <string name="register">Ещё нет аккаунта? <b>Регистрация</b></string>
+
+    <string name="change_currency">Изменить валюту</string>
 </resources>

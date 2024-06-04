@@ -144,9 +144,5 @@ public class ChooseIconActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
     }
 }

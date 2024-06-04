@@ -16,6 +16,27 @@
         android:theme="@style/Theme.Kursach"
         tools:targetApi="31">
         <activity
+            android:name=".activity.Proverka"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ReportsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.IncomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AddOperationActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ExpenseManager"
             android:exported="false" />
         <activity

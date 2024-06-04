@@ -20,8 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.kursach.R;
-import com.example.kursach.fragments.CategoryFragment;
-import com.example.kursach.fragments.HomeFragment;
 import com.example.kursach.model.CategoryInfo;
 import com.example.kursach.model.Expense;
 import com.example.kursach.model.HelperClass;
@@ -71,7 +69,8 @@ public class ExpenseManager extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                finish();
+                Intent intent = new Intent(ExpenseManager.this, HomeActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -81,10 +80,11 @@ public class ExpenseManager extends AppCompatActivity {
                 onSaveClicked();
 
                 onBackPressed();
+
+                Intent intent = new Intent(ExpenseManager.this, HomeActivity.class);
+                startActivity(intent);
             }
         });
-
-
     }
 
     private void fetchCategoriesFromFirebase() {
@@ -165,6 +165,8 @@ public class ExpenseManager extends AppCompatActivity {
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.show();
     }
+
+
 
 
     private void onSaveClicked() {
